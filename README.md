@@ -58,6 +58,7 @@ curl -L https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o
 ```
 
 **Add everything to the PATH**
+
 In order to avoid errors when training, we need to add ffmpeg to the PATH. We can do this the easy way with a single command:
 ```
 export PATH="/content/miniconda/bin:$PATH"
@@ -79,6 +80,7 @@ Exit by clicking ctrl + x, save it by pressing "y". In order for our new PATH to
 source ~/.bashrc
 ```
 **Edit dataset.py file**
+
 While were out and about with our new nano editor, let's do some more edits! There is a file called dataset.py, which throws an error (something like "AttributeError: module 'numpy' has no attribute 'float'") if we don't change replace "np.float" with "float". Nano is the perfect tool for this. So open up the file by typing: 
 ```
 nano /content/miniconda/lib/python3.11/site-packages/rave/dataset.py
@@ -99,7 +101,7 @@ nohup rave train --config some-configuration --db_path /dataset/path --name give
 ```
 All the logs from the training are going out to a document called "nohup.out". But how can we see that document while the nohup training is running? We need another window! Follow [these steps](https://vast.ai/faq#what-is-this-tmux-thing-how-do-i-create-multiple-bash-terminals-on-my-ssh-instance). Simply press ctrl + b, release and click c (c as in create). To toggle between the original and the newly created window, press ctrl + b followed by n (n as in next I guess). Create as many windows as you like! (Spoiler alert, we will create one to run a Tensorboard monitor later!)
 
-In the newly created window, navigate to where you were when you started training using the cd command. Google cd command if you are not familiar with it. In this folder you will find file called "nohup.out". Open it, and view realtime incoming data by typing: 
+In the newly created window, navigate to where you were when you started training using the cd command. More on cd-commands a little further down this readme. In this folder you will find file called "nohup.out". Open it, and view realtime incoming data by typing: 
 ```
 tail -f nohup.out
 ```
@@ -129,10 +131,14 @@ localhost:8080
 Now, you should see the tensorboard loading! Whenever you want see the latest updates from the training, simply refresh the localhost website. 
 
 ### Resuming from checkpoints and exporting
-Enter the code from the RAVE repo. The checkpoints are in the "runs" folder. Navigate using the cd command. Hint, double tapping the tab key will display all files in the folder you're in, making it simple to navigate around. Use "cd .." to go up one level. If you have multiple runs, navigate to the latest one. Use best checkpoint or last checkpoint? I don't know. 
+See the steps from from the RAVE repo. The checkpoints are in the "runs" folder. Navigate using the cd command. Hint, double tapping the tab key will display all files in the folder you're in, making it simple to navigate around. Use "cd .." to go up one level. If you have multiple runs, navigate to the latest one. Use best checkpoint or last checkpoint? I don't know. 
 
 ### Prior
-Follow steps from the prior website. One that that really confused me with training a prior, was that you're supposed to point to a .ts file that's generated in the pre-processed folder - NOT the .ts file that's generated when running "rave export". 
+Again, follow the steps from [github](https://github.com/caillonantoine/msprior). But first, we need to install the prior: 
+```
+pip install acids-msprior
+```
+Then follow the steps. One that that really confused me with training a prior, was that you're supposed to point to a .ts file that's generated in the pre-processed folder - NOT the .ts file that's generated when running "rave export", or the compiler will throw you an error.
 
 ### Ending words
-I hope you find this helpful! 
+I hope you find this helpful! Don't hesitate to update the readme and make pull requests! 
